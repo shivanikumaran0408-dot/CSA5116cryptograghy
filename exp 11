@@ -1,0 +1,8 @@
+
+import math
+
+keys = math.factorial(25)
+power = math.log2(keys)
+
+print("Total possible keys:", keys)
+print("Approximate power of 2:", round(power, 2))
