@@ -1,0 +1,27 @@
+
+import string
+from math import gcd
+
+cipher = input("Enter ciphertext: ").upper()
+alphabet = string.ascii_uppercase
+common = ["E", "T", "A", "O", "I", "N"]
+
+for a in range(1, 26):
+    if gcd(a, 26) != 1:
+        continue
+
+    inv = pow(a, -1, 26)
+
+    for b in range(26):
+        result = ""
+        for ch in cipher:
+            if ch in alphabet:
+                c = ord(ch) - 65
+                p = (inv * (c - b)) % 26
+                result += chr(p + 65)
+            else:
+                result += ch
+
+        if result and result[0] in common:
+            print("a =", a, "b =", b)
+            print("Possible plaintext:", result)
