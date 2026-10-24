@@ -1,0 +1,30 @@
+
+import string
+
+plain = "meet me at the usual place at ten rather than eight oclock"
+text = "".join(c for c in plain.upper() if c.isalpha())
+
+if len(text) % 2 != 0:
+    text += "X"
+
+K = [[9, 4], [5, 7]]
+inverse = [[5, 12], [15, 25]]
+
+def hill(text, matrix):
+    result = ""
+    for i in range(0, len(text), 2):
+        x = ord(text[i]) - 65
+        y = ord(text[i+1]) - 65
+
+        c1 = (matrix[0][0]*x + matrix[0][1]*y) % 26
+        c2 = (matrix[1][0]*x + matrix[1][1]*y) % 26
+
+        result += chr(c1 + 65) + chr(c2 + 65)
+    return result
+
+cipher = hill(text, K)
+decrypted = hill(cipher, inverse)
+
+print("Plaintext:", text)
+print("Ciphertext:", cipher)
+print("Decrypted text:", decrypted)
