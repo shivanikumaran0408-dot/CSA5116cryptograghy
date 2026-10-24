@@ -1,0 +1,39 @@
+
+def make_matrix(key):
+    s = ""
+    for ch in (key.upper() + "ABCDEFGHIKLMNOPQRSTUVWXYZ"):
+        if ch.isalpha():
+            ch = ch.replace("J", "I")
+            if ch not in s:
+                s += ch
+    return [s[i:i+5] for i in range(0, 25, 5)]
+
+def decrypt(text, key):
+    m = make_matrix(key)
+    text = "".join(c for c in text.upper() if c.isalpha())
+    text = text.replace("J", "I")
+    result = ""
+
+    for i in range(0, len(text)-1, 2):
+        a, b = text[i], text[i+1]
+        for r in range(5):
+            for c in range(5):
+                if m[r][c] == a:
+                    r1, c1 = r, c
+                if m[r][c] == b:
+                    r2, c2 = r, c
+
+        if r1 == r2:
+            result += m[r1][(c1-1)%5]
+            result += m[r2][(c2-1)%5]
+        elif c1 == c2:
+            result += m[(r1-1)%5][c1]
+            result += m[(r2-1)%5][c2]
+        else:
+            result += m[r1][c2] + m[r2][c1]
+
+    return result
+
+key = input("Enter keyword: ")
+cipher = input("Enter ciphertext: ")
+print("Plaintext:", decrypt(cipher, key))
